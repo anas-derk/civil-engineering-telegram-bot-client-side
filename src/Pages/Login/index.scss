@@ -1,0 +1,10 @@
+.admin-login{
+    min-height: 100vh;
+    .admin-login-form{
+        input{
+            @media (max-width: 767px) {
+                width: 100% !important;
+            }
+        }
+    }
+}
