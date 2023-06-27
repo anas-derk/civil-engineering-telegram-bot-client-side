@@ -12,6 +12,8 @@ function Managment({ pageTitle }) {
 
     const [service, setService] = useState("");
 
+    const [subject, setSubject] = useState("");
+
     const [file, setFile] = useState("");
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
@@ -48,6 +50,7 @@ function Managment({ pageTitle }) {
         formData.append("year", year);
         formData.append("season", season);
         formData.append("service", service);
+        formData.append("subject", subject);
         formData.append("file", file);
         try {
             const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, formData, {
@@ -103,6 +106,14 @@ function Managment({ pageTitle }) {
                     <option value="lectures">محاضرات</option>
                     <option value="courses">دورات</option>
                     <option value="medallion">نوط</option>
+                </select>
+                <select className="form-control p-3 mb-4" required onChange={(e) => setSubject(e.target.value)}>
+                    <option value="" hidden>الرجاء اختيار المادة</option>
+                    <option value="first-year">السنة الأولى</option>
+                    <option value="second-year">السنة الثانية</option>
+                    <option value="third-year">السنة الثالثة</option>
+                    <option value="fourth-year">السنة الرابعة</option>
+                    <option value="fifth-year">السنة الخامسة</option>
                 </select>
                 <input
                     type="file"
