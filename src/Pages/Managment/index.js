@@ -11,7 +11,7 @@ function Managment({ pageTitle }) {
 
     const [service, setService] = useState("");
 
-    const [fileUrl, setFileUrl] = useState("");
+    const [file, setFile] = useState("");
 
     const [isWaitStatus, setIsWaitStatus] = useState(false);
 
@@ -43,12 +43,16 @@ function Managment({ pageTitle }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
+        let formData = new FormData();
+        formData.append("year", year);
+        formData.append("season", season);
+        formData.append("service", service);
+        formData.append("file", file);
         try {
-            const res = await Axios.post(`http://localhost:4000/admin/add-new-file`, {
-                year,
-                season,
-                service,
-                fileUrl,
+            const res = await Axios.post(`http://localhost:4000/admin/add-new-file`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
             });
             const result = await res.data;
             setTimeout(() => {
@@ -97,11 +101,11 @@ function Managment({ pageTitle }) {
                     <option value="lectures">محاضرات</option>
                 </select>
                 <input
-                    type="text"
+                    type="file"
                     placeholder="الرجاء إدخال رابط الملف"
                     className="form-control p-3 mb-4"
                     required
-                    onChange={(e) => setFileUrl(e.target.value)}
+                    onChange={(e) => setFile(e.target.files[0])}
                 />
                 {!isWaitStatus && !isSuccessStatus && !errMsg && <button type="submit" className="btn btn-dark p-3 w-50">إرسال</button>}
                 {isWaitStatus && <button type="submit" className="btn btn-warning p-3 w-50" disabled>جاري الإرسال  ...</button>}
