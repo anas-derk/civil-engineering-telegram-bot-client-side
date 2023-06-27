@@ -2,6 +2,7 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import data from "../../data";
 
 function AdminLogin({ pageTitle }) {
 
@@ -21,7 +22,7 @@ function AdminLogin({ pageTitle }) {
 
     const adminLogin = (e) => {
         e.preventDefault();
-        Axios.get(`https://api.civil-engineering-tu.online/admin/login?email=${email}&password=${password}`)
+        Axios.get(`${data.BASE_API_URL}/admin/login?email=${email}&password=${password}`)
             .then((res) => {
                 let result = res.data;
                 if (result === "عذراً البريد الالكتروني أو كلمة السر خاطئة ...") {

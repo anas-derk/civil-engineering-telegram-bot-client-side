@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Axios from "axios";
+import data from "../../data";
 
 function Managment({ pageTitle }) {
 
@@ -27,7 +28,7 @@ function Managment({ pageTitle }) {
         if (!adminId) {
             navigate("/login");
         } else {
-            Axios.get(`https://api.civil-engineering-tu.online/admin/admin-info/${adminId}`)
+            Axios.get(`${data.BASE_API_URL}/admin/admin-info/${adminId}`)
                 .then((res) => {
                     let result = res.data;
                     if (result === "عذراً ، حساب المسؤول غير موجود") {
@@ -49,7 +50,7 @@ function Managment({ pageTitle }) {
         formData.append("service", service);
         formData.append("file", file);
         try {
-            const res = await Axios.post(`https://api.civil-engineering-tu.online/admin/add-new-file`, formData, {
+            const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }
@@ -88,6 +89,9 @@ function Managment({ pageTitle }) {
                     <option value="" hidden>الرجاء اختيار السنة</option>
                     <option value="first-year">السنة الأولى</option>
                     <option value="second-year">السنة الثانية</option>
+                    <option value="third-year">السنة الثالثة</option>
+                    <option value="fourth-year">السنة الرابعة</option>
+                    <option value="fifth-year">السنة الخامسة</option>
                 </select>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setSeason(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار الفصل</option>
@@ -96,9 +100,9 @@ function Managment({ pageTitle }) {
                 </select>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setService(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار الخدمة</option>
-                    <option value="medallion">نوط</option>
-                    <option value="courses">دورات</option>
                     <option value="lectures">محاضرات</option>
+                    <option value="courses">دورات</option>
+                    <option value="medallion">نوط</option>
                 </select>
                 <input
                     type="file"
