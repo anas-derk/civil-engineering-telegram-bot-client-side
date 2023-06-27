@@ -85,12 +85,19 @@ const subjectNames = {
     },
     "fifth-year": {
         "first-season": [
-            { subj: "17", optionValue: "17" },
-            { subj: "18", optionValue: "18" },
+            { subj: "تكنولوجيا التشييد 2", optionValue: "تكنولوجيا التشييد 2" },
+            { subj: "المنشآت الخرسانية الخاصة", optionValue: "المنشآت الخرسانية الخاصة" },
+            { subj: "المنشآت المختلطة", optionValue: "المنشآت المختلطة" },
+            { subj: "تنقية مياه الشرب", optionValue: "تنقية مياه الشرب" },
+            { subj: "تصميم بمعونة الحاسب", optionValue: "تصميم بمعونة الحاسب" },
+            { subj: "هندسة المرافئ", optionValue: "هندسة المرافئ" },
         ],
         "second-season": [
-            { subj: "19", optionValue: "19" },
-            { subj: "20", optionValue: "20" },
+            { subj: "الاقتصاد الهندسي", optionValue: "الاقتصاد الهندسي" },
+            { subj: "هندسة الإنفاق والمنشآت المطمورة", optionValue: "هندسة الإنفاق والمنشآت المطمورة" },
+            { subj: "معالجة مياه الصرف الصحي", optionValue: "معالجة مياه الصرف الصحي" },
+            { subj: "هندسة المطارات", optionValue: "هندسة المطارات" },
+            { subj: "ادارة المشاريع الهندسية", optionValue: "ادارة المشاريع الهندسية" },
         ],
     },
 }
