@@ -24,6 +24,59 @@ function Managment({ pageTitle }) {
 
     const navigate = useNavigate();
 
+    const subjectNames = {
+        "first-year": {
+            "first-season": [
+                { subj: "1", optionValue: "1" },
+                { subj: "2", optionValue: "2" },
+            ],
+            "second-season": [
+                { subj: "3", optionValue: "3" },
+                { subj: "4", optionValue: "4" },
+            ],
+        },
+        "second-year": {
+            "first-season": [
+                { subj: "5", optionValue: "5" },
+                { subj: "6", optionValue: "6" },
+            ],
+            "second-season": [
+                { subj: "7", optionValue: "7" },
+                { subj: "8", optionValue: "8" },
+            ],
+        },
+        "third-year": {
+            "first-season": [
+                { subj: "9", optionValue: "9" },
+                { subj: "10", optionValue: "10" },
+            ],
+            "second-season": [
+                { subj: "11", optionValue: "11" },
+                { subj: "12", optionValue: "12" },
+            ],
+        },
+        "fourth-year": {
+            "first-season": [
+                { subj: "13", optionValue: "13" },
+                { subj: "14", optionValue: "14" },
+            ],
+            "second-season": [
+                { subj: "15", optionValue: "15" },
+                { subj: "16", optionValue: "16" },
+            ],
+        },
+        "fifth-year": {
+            "first-season": [
+                { subj: "17", optionValue: "17" },
+                { subj: "18", optionValue: "18" },
+            ],
+            "second-season": [
+                { subj: "19", optionValue: "19" },
+                { subj: "20", optionValue: "20" },
+            ],
+        },
+    }
+
     useEffect(() => {
         document.title = `بوت الدورات - ${pageTitle}`;
         let adminId = localStorage.getItem("courses-telegram-bot-admin-id");
@@ -109,11 +162,9 @@ function Managment({ pageTitle }) {
                 </select>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setSubject(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار المادة</option>
-                    <option value="first-year">السنة الأولى</option>
-                    <option value="second-year">السنة الثانية</option>
-                    <option value="third-year">السنة الثالثة</option>
-                    <option value="fourth-year">السنة الرابعة</option>
-                    <option value="fifth-year">السنة الخامسة</option>
+                    {year && season && subjectNames[year][season].map((subj, index) => (
+                        <option value={subj.optionValue}>{ subj.subj }</option>
+                    ))}
                 </select>
                 <input
                     type="file"
