@@ -22,60 +22,9 @@ function Managment({ pageTitle }) {
 
     const [errMsg, setErrMsg] = useState(false);
 
-    const navigate = useNavigate();
+    const [errFileType, setErrFileType] = useState("");
 
-    const subjectNames = {
-        "first-year": {
-            "first-season": [
-                { subj: "1", optionValue: "1" },
-                { subj: "2", optionValue: "2" },
-            ],
-            "second-season": [
-                { subj: "3", optionValue: "3" },
-                { subj: "4", optionValue: "4" },
-            ],
-        },
-        "second-year": {
-            "first-season": [
-                { subj: "5", optionValue: "5" },
-                { subj: "6", optionValue: "6" },
-            ],
-            "second-season": [
-                { subj: "7", optionValue: "7" },
-                { subj: "8", optionValue: "8" },
-            ],
-        },
-        "third-year": {
-            "first-season": [
-                { subj: "9", optionValue: "9" },
-                { subj: "10", optionValue: "10" },
-            ],
-            "second-season": [
-                { subj: "11", optionValue: "11" },
-                { subj: "12", optionValue: "12" },
-            ],
-        },
-        "fourth-year": {
-            "first-season": [
-                { subj: "13", optionValue: "13" },
-                { subj: "14", optionValue: "14" },
-            ],
-            "second-season": [
-                { subj: "15", optionValue: "15" },
-                { subj: "16", optionValue: "16" },
-            ],
-        },
-        "fifth-year": {
-            "first-season": [
-                { subj: "17", optionValue: "17" },
-                { subj: "18", optionValue: "18" },
-            ],
-            "second-season": [
-                { subj: "19", optionValue: "19" },
-                { subj: "20", optionValue: "20" },
-            ],
-        },
-    }
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = `بوت الدورات - ${pageTitle}`;
@@ -98,41 +47,49 @@ function Managment({ pageTitle }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsWaitStatus(true);
-        let formData = new FormData();
-        formData.append("year", year);
-        formData.append("season", season);
-        formData.append("service", service);
-        formData.append("subject", subject);
-        formData.append("file", file);
-        try {
-            const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            });
-            const result = await res.data;
+        setErrFileType("");
+        if (file.type !== "application/pdf") {
+            setErrFileType("عذراً ، يجب اختيار ملف من امتداد pdf");
             setTimeout(() => {
+                setErrFileType("");
+            }, 3000);
+        } else {
+            setIsWaitStatus(true);
+            let formData = new FormData();
+            formData.append("year", year);
+            formData.append("season", season);
+            formData.append("service", service);
+            formData.append("subject", subject);
+            formData.append("file", file);
+            try {
+                const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                });
+                const result = await res.data;
+                setTimeout(() => {
+                    setIsWaitStatus(false);
+                    if (result === "عذراً يوجد ملف سابق بنفس الرابط تماماً") {
+                        setErrMsg(result);
+                        setTimeout(() => {
+                            setErrMsg("");
+                        }, 2000);
+                    } else {
+                        setIsSuccessStatus(true);
+                        setTimeout(() => {
+                            setIsSuccessStatus(false);
+                        }, 1500);
+                    }
+                }, 2000);
+            }
+            catch (err) {
                 setIsWaitStatus(false);
-                if (result === "عذراً يوجد ملف سابق بنفس الرابط تماماً") {
-                    setErrMsg(result);
-                    setTimeout(() => {
-                        setErrMsg("");
-                    }, 2000);
-                } else {
-                    setIsSuccessStatus(true);
-                    setTimeout(() => {
-                        setIsSuccessStatus(false);
-                    }, 1500);
-                }
-            }, 2000);
-        }
-        catch (err) {
-            setIsWaitStatus(false);
-            setErrMsg("عذراً يوجد خطأ ، الرجاء إعادة العملية");
-            setTimeout(() => {
-                setErrMsg("");
-            }, 2000);
+                setErrMsg("عذراً يوجد خطأ ، الرجاء إعادة العملية");
+                setTimeout(() => {
+                    setErrMsg("");
+                }, 2000);
+            }
         }
     }
 
@@ -162,8 +119,8 @@ function Managment({ pageTitle }) {
                 </select>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setSubject(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار المادة</option>
-                    {year && season && subjectNames[year][season].map((subj, index) => (
-                        <option value={subj.optionValue}>{ subj.subj }</option>
+                    {year && season && data.subjectNames[year][season].map((subj, index) => (
+                        <option value={subj.optionValue} key={index}>{subj.subj}</option>
                     ))}
                 </select>
                 <input
@@ -173,6 +130,7 @@ function Managment({ pageTitle }) {
                     required
                     onChange={(e) => setFile(e.target.files[0])}
                 />
+                {errFileType && <p className="alert alert-danger">{errFileType}</p>}
                 {!isWaitStatus && !isSuccessStatus && !errMsg && <button type="submit" className="btn btn-dark p-3 w-50">إرسال</button>}
                 {isWaitStatus && <button type="submit" className="btn btn-warning p-3 w-50" disabled>جاري الإرسال  ...</button>}
                 {isSuccessStatus && <button type="submit" className="btn btn-success p-3 w-50">مبارك ، لقد نجحت العملية ...</button>}
