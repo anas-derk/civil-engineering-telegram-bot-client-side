@@ -27,7 +27,7 @@ function Managment({ pageTitle }) {
         if (!adminId) {
             navigate("/login");
         } else {
-            Axios.get(`http://localhost:4000/admin/admin-info/${adminId}`)
+            Axios.get(`https://api.civil-engineering-tu.online/admin/admin-info/${adminId}`)
                 .then((res) => {
                     let result = res.data;
                     if (result === "عذراً ، حساب المسؤول غير موجود") {
@@ -49,7 +49,7 @@ function Managment({ pageTitle }) {
         formData.append("service", service);
         formData.append("file", file);
         try {
-            const res = await Axios.post(`http://localhost:4000/admin/add-new-file`, formData, {
+            const res = await Axios.post(`https://api.civil-engineering-tu.online/admin/add-new-file`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }

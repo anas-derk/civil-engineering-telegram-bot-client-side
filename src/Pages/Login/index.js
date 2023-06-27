@@ -21,7 +21,7 @@ function AdminLogin({ pageTitle }) {
 
     const adminLogin = (e) => {
         e.preventDefault();
-        Axios.get(`http://localhost:4000/admin/login?email=${email}&password=${password}`)
+        Axios.get(`https://api.civil-engineering-tu.online/admin/login?email=${email}&password=${password}`)
             .then((res) => {
                 let result = res.data;
                 if (result === "عذراً البريد الالكتروني أو كلمة السر خاطئة ...") {
