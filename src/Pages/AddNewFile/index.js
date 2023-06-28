@@ -61,6 +61,7 @@ function AddNewFile({ pageTitle }) {
             formData.append("service", service);
             formData.append("subject", subject);
             formData.append("file", file);
+            formData.append("name", file.name);
             try {
                 const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, formData, {
                     headers: {
