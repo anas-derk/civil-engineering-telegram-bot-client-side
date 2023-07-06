@@ -54,10 +54,6 @@ function DeleteFile({ pageTitle }) {
                 season,
                 service,
                 subject,
-            }, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
             });
             const result = await res.data;
             setTimeout(() => {
@@ -104,7 +100,7 @@ function DeleteFile({ pageTitle }) {
         <div className="delete-file d-flex flex-column align-items-center justify-content-center">
             <h1 className="bg-danger p-3 text-white mb-4">مرحباً بك في صفحة حذف ملف</h1>
             {/* Start Show Files Form */}
-            <form className="show-files-form w-50 mb-4" onSubmit={handleSubmit}>
+            <form className="show-files-form w-50" onSubmit={handleSubmit}>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setYear(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار السنة</option>
                     <option value="first-year">السنة الأولى</option>
@@ -138,7 +134,8 @@ function DeleteFile({ pageTitle }) {
             {/* End Show Files Form */}
             {/* Start Files Table */}
             <hr />
-            {filesList.length > 0 ? (
+            {year && season && service && subject && filesList.length === 0 && <p className="alert alert-danger">عذراً لا توجد ملفات حالياً</p> }
+            {filesList.length > 0 && (
                 <table className="files-list-table">
                     <tbody>
                         {filesList.map((file) => (
@@ -163,8 +160,6 @@ function DeleteFile({ pageTitle }) {
                         ))}
                     </tbody>
                 </table>
-            ) : (
-                <p className="alert alert-danger">عذراً لا يوجد أي ملفات حالياً</p>
             )}
             {/* End Files Table */}
         </div>
