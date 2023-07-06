@@ -30,7 +30,7 @@ function DeleteAds({ pageTitle }) {
                 }
             })
             .catch((err) => console.log(err));
-    };
+    }
     return (
         // Start Delete Ads Page
         <div className="delete-ads">

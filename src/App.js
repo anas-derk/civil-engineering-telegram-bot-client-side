@@ -7,6 +7,7 @@ const Managment = lazy(() => import("./Pages/Managment/index"));
 const AdsManagment = lazy(() => import("./Pages/Managment/AdsManagement/index.js"));
 const FilesManagment = lazy(() => import("./Pages/Managment/FilesManagment/index"));
 const AddNewFile = lazy(() => import("./Pages/Managment/FilesManagment/AddNewFile/index"));
+const DeleteFile = lazy(() => import("./Pages/Managment/FilesManagment/DeleteFile/index"));
 const AddNewAd = lazy(() => import("./Pages/Managment/AdsManagement/AddNewAd/index"));
 const DeleteAds = lazy(() => import("./Pages/Managment/AdsManagement/DeleteAds/index"));
 const PageNotFound = lazy(() => import("./Pages/404/index"));
@@ -22,6 +23,7 @@ function App() {
           <Route path="/managment/ads-managment" element={<AdsManagment pageTitle="صفحة إدارة الإعلانات" />}></Route>
           <Route path="/managment/files-managment" element={<FilesManagment pageTitle="صفحة إدارة الملفات" />}></Route>
           <Route path="/managment/files-managment/add-new-file" element={<AddNewFile pageTitle="صفحة إضافة ملف جديد" />}></Route>
+          <Route path="/managment/files-managment/delete-file" element={<DeleteFile pageTitle="صفحة حذف ملف" />}></Route>
           <Route path="/managment/ads-managment/add-new-ad" element={<AddNewAd pageTitle="صفحة إضافة إعلان جديد" />}></Route>
           <Route path="/managment/ads-managment/delete-ads" element={<DeleteAds pageTitle="صفحة حذف إعلان" />}></Route>
           <Route path="*" element={<PageNotFound pageTitle="Page Not Found" />}></Route>
