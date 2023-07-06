@@ -66,13 +66,13 @@ function DeleteFile({ pageTitle }) {
 
     const deleteFile = (e, fileId, fileUrl) => {
         e.preventDefault();
-        Axios.delete(`${data.BASE_API_URL}/admin/ads/delete-ads/${fileId}?fileUrl=${fileUrl}`)
+        Axios.delete(`${data.BASE_API_URL}/admin/subject-files/delete-file/${fileId}?service=${service}&fileUrl=${fileUrl}`)
             .then((res) => {
-                if (res.data === "تم حذف الإعلان بنجاح") document.location.reload();
+                if (res.data === "تم حذف الملف بنجاح") document.location.reload();
                 else {
                     setErrMsg("عذراً ، حدثت مشكلة الرجاء إعادة المحاولة");
                     setTimeout(() => {
-                        setErrMsg("عذراً ، حدثت مشكلة الرجاء إعادة المحاولة");
+                        setErrMsg("");
                     }, 2000);
                 }
             })
@@ -143,7 +143,7 @@ function DeleteFile({ pageTitle }) {
                         ))}
                     </tbody>
                 </table>
-            ): <p className="alert alert-danger">عذراً لا توجد ملفات حالياً أو لم تقم بتحديد خيارات الملفات المطلوبة ..</p>}
+            ) : <p className="alert alert-danger">عذراً لا توجد ملفات حالياً أو لم تقم بتحديد خيارات الملفات المطلوبة ..</p>}
             {/* End Files Table */}
         </div>
         // End Delete File Page
