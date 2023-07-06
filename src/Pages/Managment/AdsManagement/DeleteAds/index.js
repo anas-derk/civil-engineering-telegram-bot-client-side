@@ -1,29 +1,39 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import data from "../../../../data";
+import "./index.css";
 
 function DeleteAds({ pageTitle }) {
 
     const [adsList, setAdsList] = useState([]);
 
+    const [errMsg, setErrMsg] = useState("");
+
     useEffect(() => {
         document.title = `بوت الدورات - ${pageTitle}`;
-        Axios.get(`${process.env.BASE_API_URL}/admin/ads/all-ads`)
-        .then((res) => {
-            const result = res.data;
-            setAdsList(result);
-        });
+        Axios.get(`${data.BASE_API_URL}/admin/ads/all-ads`)
+            .then((res) => {
+                const result = res.data;
+                setAdsList(result);
+            });
     }, []);
     const deleteAds = (e, adsId) => {
         e.preventDefault();
-        Axios.delete(`${process.env.BASE_API_URL}/admin/ads/delete-ads/${adsId}`)
-            .then(() => {
-                document.location.reload();
+        Axios.delete(`${data.BASE_API_URL}/admin/ads/delete-ads/${adsId}`)
+            .then((res) => {
+                if (res.data === "تم حذف الإعلان بنجاح") document.location.reload();
+                else {
+                    setErrMsg("عذراً ، حدثت مشكلة الرجاء إعادة المحاولة");
+                    setTimeout(() => {
+                        setErrMsg("عذراً ، حدثت مشكلة الرجاء إعادة المحاولة");
+                    }, 2000);
+                }
             })
             .catch((err) => console.log(err));
     };
     return (
         // Start Delete Ads Page
-        <div className="delete-and-ads">
+        <div className="delete-ads">
             {/* Start Content Section */}
             <section className="content text-center pt-5 pb-5">
                 {/* Start Container Component From Bootstrap */}
@@ -46,6 +56,9 @@ function DeleteAds({ pageTitle }) {
                                                 <button type="submit" className="btn btn-danger p-3">
                                                     حذف الإعلان
                                                 </button>
+                                                {errMsg && <button className="btn btn-danger p-3">
+                                                    {errMsg}
+                                                </button>}
                                             </form>
                                         </td>
                                     </tr>
