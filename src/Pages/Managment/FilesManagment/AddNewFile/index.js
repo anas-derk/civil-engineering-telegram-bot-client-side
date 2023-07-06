@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Axios from "axios";
-import data from "../../data";
+import data from "../../../../data";
 
 function AddNewFile({ pageTitle }) {
 
