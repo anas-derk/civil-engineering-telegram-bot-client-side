@@ -81,7 +81,7 @@ function DeleteFile({ pageTitle }) {
 
     return (
         // Start Delete File Page
-        <div className="delete-file d-flex flex-column align-items-center justify-content-center">
+        <div className="delete-file d-flex flex-column align-items-center justify-content-center pt-5 pb-5">
             <h1 className="bg-danger p-3 text-white mb-4">مرحباً بك في صفحة حذف ملف</h1>
             {/* Start Show Files Form */}
             <form className="show-files-form w-50" onSubmit={getSubjectFiles}>
@@ -119,7 +119,7 @@ function DeleteFile({ pageTitle }) {
             {/* Start Files Table */}
             <hr />
             {filesList.length > 0 ? (
-                <table className="files-list-table">
+                <table className="files-list-table w-50">
                     <tbody>
                         {filesList.map((file) => (
                             <tr key={file._id}>
