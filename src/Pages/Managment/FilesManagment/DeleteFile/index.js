@@ -45,31 +45,15 @@ function DeleteFile({ pageTitle }) {
 
     }, []);
 
-    const handleSubmit = async (e) => {
+    const getSubjectFiles = async (e) => {
         e.preventDefault();
         setIsWaitStatus(true);
         try {
-            const res = await Axios.post(`${data.BASE_API_URL}/admin/add-new-file`, {
-                year,
-                season,
-                service,
-                subject,
-            });
+            const res = await Axios.get(`${data.BASE_API_URL}/admin/subject-files?year=${year}&season=${season}&service=${service}&subject=${subject}`);
             const result = await res.data;
-            setTimeout(() => {
-                setIsWaitStatus(false);
-                if (result === "عذراً يوجد ملف سابق بنفس الرابط تماماً") {
-                    setErrMsg(result);
-                    setTimeout(() => {
-                        setErrMsg("");
-                    }, 2000);
-                } else {
-                    setIsSuccessStatus(true);
-                    setTimeout(() => {
-                        setIsSuccessStatus(false);
-                    }, 1500);
-                }
-            }, 2000);
+            console.log(result);
+            setIsWaitStatus(false);
+            setFilesList(result);
         }
         catch (err) {
             setIsWaitStatus(false);
@@ -80,9 +64,9 @@ function DeleteFile({ pageTitle }) {
         }
     }
 
-    const deleteFile = (e, fileId) => {
+    const deleteFile = (e, fileId, fileUrl) => {
         e.preventDefault();
-        Axios.delete(`${data.BASE_API_URL}/admin/ads/delete-ads/${fileId}`)
+        Axios.delete(`${data.BASE_API_URL}/admin/ads/delete-ads/${fileId}?fileUrl=${fileUrl}`)
             .then((res) => {
                 if (res.data === "تم حذف الإعلان بنجاح") document.location.reload();
                 else {
@@ -100,7 +84,7 @@ function DeleteFile({ pageTitle }) {
         <div className="delete-file d-flex flex-column align-items-center justify-content-center">
             <h1 className="bg-danger p-3 text-white mb-4">مرحباً بك في صفحة حذف ملف</h1>
             {/* Start Show Files Form */}
-            <form className="show-files-form w-50" onSubmit={handleSubmit}>
+            <form className="show-files-form w-50" onSubmit={getSubjectFiles}>
                 <select className="form-control p-3 mb-4" required onChange={(e) => setYear(e.target.value)}>
                     <option value="" hidden>الرجاء اختيار السنة</option>
                     <option value="first-year">السنة الأولى</option>
@@ -134,19 +118,18 @@ function DeleteFile({ pageTitle }) {
             {/* End Show Files Form */}
             {/* Start Files Table */}
             <hr />
-            {year && season && service && subject && filesList.length === 0 && <p className="alert alert-danger">عذراً لا توجد ملفات حالياً</p> }
-            {filesList.length > 0 && (
+            {filesList.length > 0 ? (
                 <table className="files-list-table">
                     <tbody>
                         {filesList.map((file) => (
                             <tr key={file._id}>
                                 <td>
-                                    {file.content}
+                                    {file.name}
                                 </td>
                                 <td>
                                     <form
                                         className="delete-file-form"
-                                        onSubmit={(e) => deleteFile(e, file._id)}
+                                        onSubmit={(e) => deleteFile(e, file._id, file.fileUrl)}
                                     >
                                         <button type="submit" className="btn btn-danger p-3">
                                             حذف الملف
@@ -160,7 +143,7 @@ function DeleteFile({ pageTitle }) {
                         ))}
                     </tbody>
                 </table>
-            )}
+            ): <p className="alert alert-danger">عذراً لا توجد ملفات حالياً أو لم تقم بتحديد خيارات الملفات المطلوبة ..</p>}
             {/* End Files Table */}
         </div>
         // End Delete File Page
